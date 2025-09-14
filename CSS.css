@@ -1,0 +1,102 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+/* Login Page */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+}
+
+.login-box {
+  background: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 350px;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #4e54c8;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-box button:hover {
+  background: #3b3fc4;
+}
+
+/* Scrollable Page */
+.content {
+  display: none;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.section-box {
+  background: rgba(255,255,255,0.9);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.section-box h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.section-box p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Section Backgrounds */
+#comp1 { background: #ff6f61; }
+#comp2 { background: #6a82fb; }
+#comp3 { background: #11998e; }
+#comp4 { background: #f79d00; }

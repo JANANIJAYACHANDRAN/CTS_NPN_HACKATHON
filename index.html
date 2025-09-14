@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Home Page</title>
+  <style>
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;  /* 🚫 disables scroll globally */
+}
+
+.login-page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("{{ url_for('static', filename='img/15.jpg') }}") no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden; /* 🚫 prevents inner scroll */
+}
+
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.2); /* translucent card */
+      backdrop-filter: blur(10px);          /* blur effect */
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      width: 300px;
+      text-align: center;
+    }
+
+    .login-card h2 {
+      margin-bottom: 1rem;
+      color: #000000;
+    }
+
+    .login-card input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .login-card button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #007bff;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-card button:hover {
+      background: #0056b3;
+    }
+
+    /* ---------- HOME PAGE ---------- */
+    .home-page {
+      display: none;
+    }
+    
+/* ---------- NAVBAR ---------- */
+.navbar {
+  position: fixed; /* Changed to relative for positioning context */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.6s ease; /* fade animation */
+  opacity: 1; /* visible by default */
+  /* --- 1. CSS CHANGE: Added position relative --- */
+  position: relative; 
+}
+
+/* --- 2. CSS CHANGE: Added styles for the new logout button --- */
+.logout-btn {
+    position: absolute;
+    right: 20px; /* Position on the far right */
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    background-color: #f44336; /* Red color */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+/* --- END OF CSS CHANGES --- */
+
+
+.navbar.hidden {
+  opacity: 0; /* fade out */
+  pointer-events: none; /* ignore mouse when hidden */
+}
+
+.nav-title {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Home grid (4 quadrants) */
+.home-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Keep the two columns */
+  grid-template-rows: 1fr 1fr 1fr; /* CHANGE: Create three rows */
+  height: calc(100vh - 60px); /* minus navbar */
+  width: 100vw;
+  margin-top: 60px; /* prevent overlap with navbar */
+  overflow: hidden; /* This is okay now, as everything will fit */
+}
+
+.component {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* Backgrounds for each component */
+.trend {
+  background-image: url("{{ url_for('static', filename='img/trend-symbol.jpg') }}");
+}
+.seasonality {
+  background-image: url("{{ url_for('static', filename='img/seasonality-img.png') }}");
+}
+.cyclicality {
+  background-image: url("{{ url_for('static', filename='img/cyclicality.webp') }}");
+}
+.irregularity {
+  background-image: url("{{ url_for('static', filename='img/irregularity.jpg') }}");
+}
+.forecast {
+  background-image: url("{{ url_for('static', filename='img/forecast.jpg') }}");
+  grid-column: 1 / 3; /* This makes the item span from the 1st to the 3rd column line (i.e., across the whole row) */
+}
+
+/* Modern cool buttons */
+.comp-btn {
+  position: relative;
+  z-index: 5;
+  padding: 12px 28px;
+  min-width: 140px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  box-shadow: 0 8px 20px rgba(37,117,252,0.18),
+              0 2px 6px rgba(0,0,0,0.25),
+              inset 0 -3px 0 rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.comp-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 18px 40px rgba(37,117,252,0.24),
+              0 6px 12px rgba(0,0,0,0.28);
+}
+
+.comp-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .comp-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: 110px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+  <div class="login-page" id="loginPage">
+    <div class="login-card">
+      <h2>LOGIN</h2>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Email or Username" required>
+        <input type="password" id="password" placeholder="Password (min 8 chars)" minlength="8" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="home-page" id="homePage">
+    <div class="navbar">
+      <h1>PHARMACEUTICAL SALES ANALYSIS & FORECASTING</h1>
+      <button id="logoutButton" class="logout-btn">Logout</button>
+    </div>
+
+<div class="home-split">
+  <div class="component trend">
+    <button class="comp-btn" onclick="location.href='{{ url_for('trend_page') }}'">Trend</button>
+  </div>
+  <div class="component seasonality">
+    <button class="comp-btn" onclick="location.href='{{ url_for('seasonality_page') }}'">Seasonality</button>
+  </div>
+  <div class="component cyclicality">
+    <button class="comp-btn" onclick="location.href='{{ url_for('cyclicality_page') }}'">Cyclicality</button>
+  </div>
+  <div class="component irregularity">
+    <button class="comp-btn" onclick="location.href='{{ url_for('irregularity_page') }}'">Irregularity</button>
+  </div>
+  <div class="component forecast">
+    <button class="comp-btn" onclick="location.href='{{ url_for('forecast_page') }}'">Forecast</button>
+  </div>
+</div>
+
+  </div>
+
+  <div class="component-page" id="trendPage">
+    <h2>Trend Component Page</h2>
+    <button onclick="goHome()">Back to Home</button>
+  </div>
+  
+  <script>
+  // --- 4. JAVASCRIPT CHANGES: Uncommented variables and added logout logic ---
+  const loginForm = document.getElementById("loginForm");
+  const loginPage = document.getElementById("loginPage");
+  const homePage = document.getElementById("homePage");
+  const logoutButton = document.getElementById("logoutButton");
+
+  // Function to handle logout
+  function logout() {
+    homePage.style.display = "none";
+    loginPage.style.display = "block";
+    // Clear the hash from the URL to reset the state
+    history.pushState("", document.title, window.location.pathname + window.location.search);
+  }
+
+  // Attach event listener to the logout button
+  logoutButton.addEventListener('click', logout);
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    // Check if the URL has #home at the end
+    if (window.location.hash === '#home') {
+      // If it does, hide the login page and show the home page
+      loginPage.style.display = "none";
+      homePage.style.display = "block";
+    }
+  });
+  
+  loginForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (username && password.length >= 8) {
+      // Directly show homepage
+      loginPage.style.display = "none";
+      homePage.style.display = "block";
+      // Set the hash to #home to maintain state on refresh
+      window.location.hash = 'home';
+    } else {
+      alert("Enter valid details (password must be at least 8 characters).");
+    }
+  });
+
+  // Navbar fade effect
+  const navbar = document.querySelector(".navbar");
+  const compButtons = document.querySelectorAll(".comp-btn");
+
+  compButtons.forEach(btn => {
+    btn.addEventListener("mouseenter", () => {
+      navbar.classList.add("hidden"); // fade out navbar
+    });
+    btn.addEventListener("mouseleave", () => {
+      navbar.classList.remove("hidden"); // fade in navbar
+    });
+  });
+</script>
+
+</body>
+</html>
